@@ -26,6 +26,13 @@ namespace ICBINGTKR
 			this.strlist.Add(" "+vec1.MapString()+" "+vec2.MapString()+" "+vec3.MapString()+" ");
 			this.texlist.Add(new Texture("gothic_block/blocks18c_3"));
 		}
+		public string MapString () {
+			string returnstring = "";
+			for (int i=0;i<this.strlist.Count;i++) {
+				returnstring += this.strlist[i]+this.texlist[i].MapString()+"\n";
+			}
+			return returnstring;
+		}
 	}
 
 	class Texture {
@@ -72,17 +79,30 @@ namespace ICBINGTKR
 		}
 	}
 
-	class MainClass {
-
-		public static void Main (string[] args) {
-
-			IntVec3 testvec = new IntVec3(3,4,5);
-			Console.Write(testvec.MapString());
-
+	class Manager {
+		private int brushnum = 0;
+		private int entitynum = 0;
+		private List<Brush> brushes = new List<Brush>();
+		public void CreateBrushes () {
+			Brush tbrush1 = new Brush(new IntVec3(64,64,64), new IntVec3(512,512,512));
+			brushes.Add(tbrush1);
+		}	
+		public void WriteMap () {
 			StreamWriter newmap = new StreamWriter("generation.map");
-			newmap.Write("Test");
+			newmap.Write("// entity "+this.entitynum+" \n{ \n\"classname\" \"worldspawn\" \n");entitynum++;
+			foreach (Brush b in brushes) {
+				newmap.Write ("// brush "+this.brushnum+"\n");brushnum++;
+				newmap.Write ("{\n"+b.MapString()+"}\n");
+			}
 			newmap.Close();
+		}
+	}
 
+	class MainClass {
+		public static void Main (string[] args) {
+			Manager mainman = new Manager();
+			mainman.CreateBrushes();
+			mainman.WriteMap();
 		}
 	}
 }
