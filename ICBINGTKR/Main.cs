@@ -5,15 +5,19 @@ using System.IO;
 namespace ICBINGTKR
 {
 	class Brush {
-		public IntVec3 spoint;
-		public IntVec3 epoint;
-		public List<string> strlist = new List<string>();
-		public List<Texture> texlist = new List<Texture>();
-		public Brush (IntVec3 veca, IntVec3 vecb) {
+		public static Texture defaultTexture = new Texture("gothic_block/blocks18c_3");
+		private IntVec3 spoint;
+		private IntVec3 epoint;
+		private List<string> strlist = new List<string>();
+		private List<Texture> texlist = new List<Texture>();
+		private Texture globalTexture;
+		public Brush (IntVec3 veca, IntVec3 vecb) : this(veca, vecb, defaultTexture) {}
+		public Brush (IntVec3 veca, IntVec3 vecb, Texture tex) {
 			this.spoint = veca;
 			this.epoint = vecb;
+			this.globalTexture = tex;
 			for(int i=0;i<6;i++){
-				this.texlist.Add(new Texture("gothic_block/blocks18c_3"));
+				this.texlist.Add(this.globalTexture);
 			}
 			this.strlist.Add("( "+this.spoint.x+" 0 0 ) ( "+this.spoint.x+" 1 0 ) ( "+this.spoint.x+" 0 1 ) ");
 			this.strlist.Add("( "+this.epoint.x+" 0 0 ) ( "+this.epoint.x+" 0 1 ) ( "+this.epoint.x+" 1 0 ) ");
@@ -24,7 +28,10 @@ namespace ICBINGTKR
 		}
 		public void AddCuttingPlane (IntVec3 vec1, IntVec3 vec2, IntVec3 vec3) {
 			this.strlist.Add(" "+vec1.MapString()+" "+vec2.MapString()+" "+vec3.MapString()+" ");
-			this.texlist.Add(new Texture("gothic_block/blocks18c_3"));
+			this.texlist.Add(this.globalTexture);
+		}
+		public void SetTexture(int index, Texture tex){
+			this.texlist[index] = tex;
 		}
 		public string MapString () {
 			string returnstring = "";
