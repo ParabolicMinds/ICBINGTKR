@@ -33,6 +33,12 @@ namespace ICBINGTKR
 		public void SetTexture(int index, Texture tex){
 			this.texlist[index] = tex;
 		}
+		public void SetAllTextures(Texture tex) {
+			for(int i=0;i<this.texlist.Count;i++){
+				this.texlist[i] = tex;
+			}
+			this.globalTexture = tex;
+		}
 		public string MapString () {
 			string returnstring = "";
 			for (int i=0;i<this.strlist.Count;i++) {
