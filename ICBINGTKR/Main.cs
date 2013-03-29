@@ -8,7 +8,7 @@ namespace ICBINGTKR
 		public static Texture defaultTexture = new Texture("gothic_block/blocks18c_3");
 		private IntVec3 spoint;
 		private IntVec3 epoint;
-		private List<string> strlist = new List<string>();
+		private List<IntPlane> planelist = new List<IntPlane>();
 		private List<Texture> texlist = new List<Texture>();
 		private Texture globalTexture;
 		public Brush (IntVec3 veca, IntVec3 vecb) : this(veca, vecb, defaultTexture) {}
@@ -19,15 +19,16 @@ namespace ICBINGTKR
 			for(int i=0;i<6;i++){
 				this.texlist.Add(this.globalTexture);
 			}
-			this.strlist.Add("( "+this.spoint.x+" 0 0 ) ( "+this.spoint.x+" 1 0 ) ( "+this.spoint.x+" 0 1 ) ");
-			this.strlist.Add("( "+this.epoint.x+" 0 0 ) ( "+this.epoint.x+" 0 1 ) ( "+this.epoint.x+" 1 0 ) ");
-			this.strlist.Add("( 0 "+this.spoint.y+" 0 ) ( 0 "+this.spoint.y+" 1 ) ( 1 "+this.spoint.y+" 0 ) ");
-			this.strlist.Add("( 0 "+this.epoint.y+" 0 ) ( 1 "+this.epoint.y+" 0 ) ( 0 "+this.epoint.y+" 1 ) ");
-			this.strlist.Add("( 0 0 "+this.spoint.z+" ) ( 1 0 "+this.spoint.z+" ) ( 0 1 "+this.spoint.z+" ) ");
-			this.strlist.Add("( 0 0 "+this.epoint.z+" ) ( 0 1 "+this.epoint.z+" ) ( 1 0 "+this.epoint.z+" ) ");
+			this.planelist.Add(new IntPlane(this.spoint.x,0,0,this.spoint.x,1,0,this.spoint.x,0,1));
+			this.planelist.Add(new IntPlane(this.epoint.x,0,0,this.epoint.x,0,1,this.epoint.x,1,0));
+			this.planelist.Add(new IntPlane(0,this.spoint.y,0,0,this.spoint.y,1,1,this.spoint.y,0));
+			this.planelist.Add(new IntPlane(0,this.epoint.y,0,1,this.epoint.y,0,0,this.epoint.y,1));
+			this.planelist.Add(new IntPlane(0,0,this.spoint.z,1,0,this.spoint.z,0,1,this.spoint.z));
+			this.planelist.Add(new IntPlane(0,0,this.epoint.z,0,1,this.epoint.z,1,0,this.epoint.z));
 		}
+		public void AddCuttingPlane (IntPlane plane1) {AddCuttingPlane(plane1.VectorA, plane1.VectorB, plane1.VectorC);}
 		public void AddCuttingPlane (IntVec3 vec1, IntVec3 vec2, IntVec3 vec3) {
-			this.strlist.Add(" "+vec1+" "+vec2+" "+vec3+" ");
+			this.planelist.Add(new IntPlane(vec1,vec2,vec3));
 			this.texlist.Add(this.globalTexture);
 		}
 		public void SetTexture(int index, Texture tex){
@@ -41,8 +42,8 @@ namespace ICBINGTKR
 		}
 		public override string ToString () {
 			string returnstring = "";
-			for (int i=0;i<this.strlist.Count;i++) {
-				returnstring += this.strlist[i]+this.texlist[i]+"\n";
+			for (int i=0;i<this.planelist.Count;i++) {
+				returnstring += this.planelist[i]+" "+this.texlist[i]+"\n";
 			}
 			return returnstring;
 		}
@@ -90,6 +91,21 @@ namespace ICBINGTKR
 		}
 		public override string ToString() {
 			return "( "+this.x+" "+this.y+" "+this.z+" )";
+		}
+	}
+
+	class IntPlane {
+		public IntVec3 VectorA;
+		public IntVec3 VectorB;
+		public IntVec3 VectorC;
+		public IntPlane(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz) : this(new IntVec3(ax,ay,az), new IntVec3(bx,by,bz), new IntVec3(cx,cy,cz)) {}
+		public IntPlane (IntVec3 veca, IntVec3 vecb, IntVec3 vecc) {
+			this.VectorA = veca;
+			this.VectorB = vecb;
+			this.VectorC = vecc;
+		}
+		public override string ToString() {
+			return this.VectorA+" "+this.VectorB+" "+this.VectorC;
 		}
 	}
 
