@@ -27,7 +27,7 @@ namespace ICBINGTKR
 			this.strlist.Add("( 0 0 "+this.epoint.z+" ) ( 0 1 "+this.epoint.z+" ) ( 1 0 "+this.epoint.z+" ) ");
 		}
 		public void AddCuttingPlane (IntVec3 vec1, IntVec3 vec2, IntVec3 vec3) {
-			this.strlist.Add(" "+vec1.MapString()+" "+vec2.MapString()+" "+vec3.MapString()+" ");
+			this.strlist.Add(" "+vec1+" "+vec2+" "+vec3+" ");
 			this.texlist.Add(this.globalTexture);
 		}
 		public void SetTexture(int index, Texture tex){
@@ -39,10 +39,10 @@ namespace ICBINGTKR
 			}
 			this.globalTexture = tex;
 		}
-		public string MapString () {
+		public override string ToString () {
 			string returnstring = "";
 			for (int i=0;i<this.strlist.Count;i++) {
-				returnstring += this.strlist[i]+this.texlist[i].MapString()+"\n";
+				returnstring += this.strlist[i]+this.texlist[i]+"\n";
 			}
 			return returnstring;
 		}
@@ -73,7 +73,7 @@ namespace ICBINGTKR
 		public void SetDetail(bool val = true) {
 			this.detailflag = val;
 		}
-		public string MapString() {
+		public override string ToString() {
 			return this.txstring+" "+this.xoff+" "+this.yoff+" "+this.txrot+" "+this.xscale+" "+this.yscale+" "+this.detailint+" 0 0";
 		}
 	}
@@ -82,12 +82,13 @@ namespace ICBINGTKR
 		public int x;
 		public int y;
 		public int z;
+		public IntVec3(int[] arry) : this(arry[0], arry[1], arry[2]) {}
 		public IntVec3(int x, int y, int z){
 			this.x = x;
 			this.y = y;
 			this.z = z;
 		}
-		public string MapString() {
+		public override string ToString() {
 			return "( "+this.x+" "+this.y+" "+this.z+" )";
 		}
 	}
@@ -105,7 +106,7 @@ namespace ICBINGTKR
 			newmap.Write("// entity "+this.entitynum+" \n{ \n\"classname\" \"worldspawn\" \n");entitynum++;
 			foreach (Brush b in brushes) {
 				newmap.Write ("// brush "+this.brushnum+"\n");brushnum++;
-				newmap.Write ("{\n"+b.MapString()+"}\n");
+				newmap.Write ("{\n"+b+"}\n");
 			}
 			newmap.Close();
 		}
