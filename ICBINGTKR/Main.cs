@@ -125,6 +125,7 @@ namespace ICBINGTKR
 				newmap.Write ("// brush "+this.brushnum+"\n");brushnum++;
 				newmap.Write ("{\n"+b+"}\n");
 			}
+			newmap.Write ("}\n");
 			newmap.Close();
 		}
 	}
