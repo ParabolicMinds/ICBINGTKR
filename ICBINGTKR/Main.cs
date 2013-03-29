@@ -99,6 +99,7 @@ namespace ICBINGTKR
 		private List<Brush> brushes = new List<Brush>();
 		public void CreateBrushes () {
 			Brush tbrush1 = new Brush(new IntVec3(64,64,64), new IntVec3(512,512,512));
+			tbrush1.AddCuttingPlane(new IntVec3(64,64,128), new IntVec3(128,64,64), new IntVec3(64,128,64));
 			brushes.Add(tbrush1);
 		}	
 		public void WriteMap () {
