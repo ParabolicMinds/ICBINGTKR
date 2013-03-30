@@ -91,6 +91,11 @@ namespace ICBINGTKR
 		public Map (string mapname) {
 			this.mapname = mapname;
 		}
+		public Brush NewBrush (IntVec3 veca, IntVec3 vecb) {
+			Brush tbrush = new Brush(veca, vecb);
+			this.brushes.Add(tbrush);
+			return tbrush;
+		}
 		public override string ToString () {
 			string returnstring = "";
 			returnstring += "// entity "+this.entitynum+" \n{ \n\"classname\" \"worldspawn\" \n";entitynum++;
@@ -100,11 +105,6 @@ namespace ICBINGTKR
 			}
 			returnstring += "}\n";
 			return returnstring;
-		}
-		public Brush NewBrush (IntVec3 veca, IntVec3 vecb) {
-			Brush tbrush = new Brush(veca, vecb);
-			this.brushes.Add(tbrush);
-			return tbrush;
 		}
 	}
 }
