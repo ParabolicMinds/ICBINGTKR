@@ -117,19 +117,15 @@ namespace ICBINGTKR
 		public Map (string mapname) {
 			this.mapname = mapname;
 		}
-		public void CreateBrushes () {
-			Brush tbrush1 = this.NewBrush(new IntVec3(64,64,64), new IntVec3(512,512,512));
-			tbrush1.AddCuttingPlane(new IntVec3(64,64,128), new IntVec3(128,64,64), new IntVec3(64,128,64));
-		}	
-		public void WriteMap () {
-			StreamWriter newmap = new StreamWriter(this.mapname);
-			newmap.Write("// entity "+this.entitynum+" \n{ \n\"classname\" \"worldspawn\" \n");entitynum++;
+		public override string ToString () {
+			string returnstring = "";
+			returnstring += "// entity "+this.entitynum+" \n{ \n\"classname\" \"worldspawn\" \n";entitynum++;
 			foreach (Brush b in brushes) {
-				newmap.Write ("// brush "+this.brushnum+"\n");brushnum++;
-				newmap.Write ("{\n"+b+"}\n");
+				returnstring += "// brush "+this.brushnum+"\n";brushnum++;
+				returnstring += "{\n"+b+"}\n";
 			}
-			newmap.Write ("}\n");
-			newmap.Close();
+			returnstring += "}\n";
+			return returnstring;
 		}
 		public Brush NewBrush (IntVec3 veca, IntVec3 vecb) {
 			Brush tbrush = new Brush(veca, vecb);
@@ -141,8 +137,14 @@ namespace ICBINGTKR
 	class MainClass {
 		public static void Main (string[] args) {
 			Map testmap = new Map("generation.map");
-			testmap.CreateBrushes();
-			testmap.WriteMap();
+			testmap.NewBrush(new IntVec3(64,64,64), new IntVec3(512,512,512)).AddCuttingPlane(new IntVec3(64,64,256), new IntVec3(256,64,64), new IntVec3(64,256,64));
+			WriteMap(testmap);
+		}
+
+		public static void WriteMap (Map themap) {
+			StreamWriter mapwriter = new StreamWriter(themap.mapname);
+			mapwriter.Write(themap);
+			mapwriter.Close();
 		}
 	}
 }
