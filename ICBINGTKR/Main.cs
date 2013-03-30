@@ -109,17 +109,20 @@ namespace ICBINGTKR
 		}
 	}
 
-	class Manager {
+	class Map {
 		private int brushnum = 0;
 		private int entitynum = 0;
 		private List<Brush> brushes = new List<Brush>();
+		public readonly string mapname;
+		public Map (string mapname) {
+			this.mapname = mapname;
+		}
 		public void CreateBrushes () {
-			Brush tbrush1 = new Brush(new IntVec3(64,64,64), new IntVec3(512,512,512));
+			Brush tbrush1 = this.NewBrush(new IntVec3(64,64,64), new IntVec3(512,512,512));
 			tbrush1.AddCuttingPlane(new IntVec3(64,64,128), new IntVec3(128,64,64), new IntVec3(64,128,64));
-			brushes.Add(tbrush1);
 		}	
 		public void WriteMap () {
-			StreamWriter newmap = new StreamWriter("generation.map");
+			StreamWriter newmap = new StreamWriter(this.mapname);
 			newmap.Write("// entity "+this.entitynum+" \n{ \n\"classname\" \"worldspawn\" \n");entitynum++;
 			foreach (Brush b in brushes) {
 				newmap.Write ("// brush "+this.brushnum+"\n");brushnum++;
@@ -128,13 +131,18 @@ namespace ICBINGTKR
 			newmap.Write ("}\n");
 			newmap.Close();
 		}
+		public Brush NewBrush (IntVec3 veca, IntVec3 vecb) {
+			Brush tbrush = new Brush(veca, vecb);
+			this.brushes.Add(tbrush);
+			return tbrush;
+		}
 	}
 
 	class MainClass {
 		public static void Main (string[] args) {
-			Manager mainman = new Manager();
-			mainman.CreateBrushes();
-			mainman.WriteMap();
+			Map testmap = new Map("generation.map");
+			testmap.CreateBrushes();
+			testmap.WriteMap();
 		}
 	}
 }
