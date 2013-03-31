@@ -88,6 +88,16 @@ namespace ICBINGTKR
 		private int entitynum = 0;
 		private List<Brush> brushes = new List<Brush>();
 		public readonly string mapname;
+		public Map (string mapname, List<Brush> inbrushes) : this(mapname) {
+			foreach (Brush b in inbrushes) {
+				this.brushes.Add(b);
+			}
+		}
+		public Map (string mapname, Brush[] inbrushes) : this(mapname) {
+			foreach (Brush b in inbrushes) {
+				this.brushes.Add(b);
+			}
+		}
 		public Map (string mapname) {
 			this.mapname = mapname;
 		}
