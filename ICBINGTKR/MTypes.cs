@@ -106,6 +106,19 @@ namespace ICBINGTKR
 			this.brushes.Add(tbrush);
 			return tbrush;
 		}
+		public void AddBrush (Brush b) {
+			this.brushes.Add(b);
+		}
+		public void AddBrush (Brush[] b) {
+			foreach (Brush tb in b) {
+				this.brushes.Add(tb);
+			}
+		}
+		public void AddBrush (List<Brush> b) {
+			foreach (Brush tb in b) {
+				this.brushes.Add(tb);
+			}
+		}
 		public override string ToString () {
 			string returnstring = "";
 			returnstring += "// entity "+this.entitynum+" \n{ \n\"classname\" \"worldspawn\" \n";entitynum++;
