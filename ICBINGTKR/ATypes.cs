@@ -13,6 +13,9 @@ namespace ICBINGTKR
     {
         class HollowBox
         {
+            public HollowBox(IntVec3 origin, IntVec3 dimensions, int thickness)
+            {
+            }
         }
     }
 }
