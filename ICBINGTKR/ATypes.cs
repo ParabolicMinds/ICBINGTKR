@@ -104,4 +104,8 @@ namespace ICBINGTKR
             }
         }
     }
+
+    class RoomGenerator : AssemblyGenerator
+    {
+    }
 }
