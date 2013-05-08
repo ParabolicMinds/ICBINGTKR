@@ -129,8 +129,6 @@ namespace ICBINGTKR
 			return tbrush;
 		}
 		public void AddBrush (Brush b) {
-
-            
 			this.brushes.Add(b);
 		}
 		public void AddBrush (Brush[] b) {

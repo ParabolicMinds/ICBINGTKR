@@ -27,43 +27,79 @@ namespace ICBINGTKR
 
             // Top
             {
-                var veca = new IntVec3(origin.x - (dimensions.x / 2), origin.y - (dimensions.y / 2), origin.z + (dimensions.z / 2) - wallThickness);
-                var vecb = new IntVec3(origin.x + (dimensions.x / 2), origin.y + (dimensions.y / 2), origin.z + (dimensions.z / 2));
+                var veca = new IntVec3(
+                    origin.x - (dimensions.x / 2),
+                    origin.y - (dimensions.y / 2),
+                    origin.z + (dimensions.z / 2) - wallThickness);
+                var vecb = new IntVec3(
+                    origin.x + (dimensions.x / 2),
+                    origin.y + (dimensions.y / 2),
+                    origin.z + (dimensions.z / 2));
                 brushes.Add(new Brush(veca, vecb, tex));
             }
 
             // Bottom
             {
-                var veca = new IntVec3(origin.x - (dimensions.x / 2), origin.y - (dimensions.y / 2), origin.z - (dimensions.z / 2));
-                var vecb = new IntVec3(origin.x + (dimensions.x / 2), origin.y + (dimensions.y / 2), origin.z - (dimensions.z / 2) + wallThickness);
+                var veca = new IntVec3(
+                    origin.x - (dimensions.x / 2),
+                    origin.y - (dimensions.y / 2),
+                    origin.z - (dimensions.z / 2));
+                var vecb = new IntVec3(
+                    origin.x + (dimensions.x / 2),
+                    origin.y + (dimensions.y / 2),
+                    origin.z - (dimensions.z / 2) + wallThickness);
                 brushes.Add(new Brush(veca, vecb, tex));
             }
 
             // Side +x
             {
-                var veca = new IntVec3(origin.x + (dimensions.x / 2) - wallThickness, origin.y - (dimensions.y / 2), origin.z - (dimensions.z / 2));
-                var vecb = new IntVec3(origin.x + (dimensions.x / 2), origin.y + (dimensions.y / 2), origin.z + (dimensions.z / 2));
+                var veca = new IntVec3(
+                    origin.x + (dimensions.x / 2) - wallThickness,
+                    origin.y - (dimensions.y / 2),
+                    origin.z - (dimensions.z / 2));
+                var vecb = new IntVec3(
+                    origin.x + (dimensions.x / 2),
+                    origin.y + (dimensions.y / 2),
+                    origin.z + (dimensions.z / 2));
                 brushes.Add(new Brush(veca, vecb, tex));
             }
 
             // Side -x
             {
-                var veca = new IntVec3(origin.x - (dimensions.x / 2), origin.y - (dimensions.y / 2), origin.z - (dimensions.z / 2));
-                var vecb = new IntVec3(origin.x - (dimensions.x / 2) + wallThickness, origin.y + (dimensions.y / 2), origin.z + (dimensions.z / 2));
+                var veca = new IntVec3(
+                    origin.x - (dimensions.x / 2),
+                    origin.y - (dimensions.y / 2),
+                    origin.z - (dimensions.z / 2));
+                var vecb = new IntVec3(
+                    origin.x - (dimensions.x / 2) + wallThickness,
+                    origin.y + (dimensions.y / 2),
+                    origin.z + (dimensions.z / 2));
                 brushes.Add(new Brush(veca, vecb, tex));
             }
 
             // Side +y
             {
-                var veca = new IntVec3(origin.x - (dimensions.x / 2), origin.y + (dimensions.y / 2) - wallThickness, origin.z - (dimensions.z / 2));
-                var vecb = new IntVec3(origin.x + (dimensions.x / 2), origin.y + (dimensions.y / 2), origin.z + (dimensions.z / 2));
+                var veca = new IntVec3(
+                    origin.x - (dimensions.x / 2),
+                    origin.y + (dimensions.y / 2) - wallThickness,
+                    origin.z - (dimensions.z / 2));
+                var vecb = new IntVec3(
+                    origin.x + (dimensions.x / 2),
+                    origin.y + (dimensions.y / 2),
+                    origin.z + (dimensions.z / 2));
                 brushes.Add(new Brush(veca, vecb, tex));
             }
 
             // Side -y
             {
-                var veca = new IntVec3(origin.x - (dimensions.x / 2), origin.y - (dimensions.y / 2), origin.z - (dimensions.z / 2));
-                var vecb = new IntVec3(origin.x + (dimensions.x / 2), origin.y - (dimensions.y / 2) + wallThickness, origin.z + (dimensions.z / 2));
+                var veca = new IntVec3(
+                    origin.x - (dimensions.x / 2),
+                    origin.y - (dimensions.y / 2),
+                    origin.z - (dimensions.z / 2));
+                var vecb = new IntVec3(
+                    origin.x + (dimensions.x / 2),
+                    origin.y - (dimensions.y / 2) + wallThickness,
+                    origin.z + (dimensions.z / 2));
                 brushes.Add(new Brush(veca, vecb, tex));
             }
         }
