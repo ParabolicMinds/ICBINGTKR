@@ -17,7 +17,7 @@ namespace ICBINGTKR
 			this.z = z;
 		}
 		public override string ToString() {
-			return "( "+this.x+" "+this.y+" "+this.z+" )";
+			return this.x + " " + this.y + " " + this.z;
 		}
 	}
 	
@@ -26,13 +26,21 @@ namespace ICBINGTKR
 		public IntVec3 VectorB;
 		public IntVec3 VectorC;
 		public IntPlane(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz) : this(new IntVec3(ax,ay,az), new IntVec3(bx,by,bz), new IntVec3(cx,cy,cz)) {}
+
 		public IntPlane (IntVec3 veca, IntVec3 vecb, IntVec3 vecc) {
 			this.VectorA = veca;
 			this.VectorB = vecb;
 			this.VectorC = vecc;
 		}
-		public override string ToString() {
-			return this.VectorA+" "+this.VectorB+" "+this.VectorC;
+
+        private String addParens(String s)
+        {
+            return "( " + s + " )";
+        }
+
+		public override string ToString()
+        {
+            return addParens(VectorA.ToString()) + " " + addParens(VectorB.ToString()) + " " + addParens(VectorC.ToString());
 		}
 	}
 }

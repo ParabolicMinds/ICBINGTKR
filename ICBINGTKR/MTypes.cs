@@ -6,7 +6,105 @@ using System.Collections.Generic;
 /// </summary>
 
 namespace ICBINGTKR
-{
+{ 
+    class Entity
+    {
+        protected Dictionary<String, String> attributes = new Dictionary<String, String>();
+
+        public Dictionary<String, String> Attributes
+        {
+            get { return attributes; }
+        }
+
+        public Entity()
+        {
+        }
+
+        public Entity(IntVec3 origin)
+        {
+            attributes.Add("origin", origin.ToString());
+        }
+
+        public void AddAttribute(String key, String value)
+        {
+            attributes.Add(key, value);
+        }
+
+        public override String ToString()
+        {
+            String returnString = "{\n";
+            foreach (KeyValuePair<String, String> entry in attributes)
+            {
+                returnString += "\"" + entry.Key + "\" \"" + entry.Value + "\"\n";
+            }
+            return returnString + "}\n";
+        }
+    }
+
+    class WorldspawnEntity : Entity
+    {
+        private List<Brush> brushes = new List<Brush>();
+
+        public WorldspawnEntity()
+        {
+            attributes.Add("classname", "worldspawn");
+        }
+
+        public WorldspawnEntity(List<Brush> bs) : this()
+        {
+            brushes = bs;
+        }
+
+        public void AddBrush(Brush b)
+        {
+            this.brushes.Add(b);
+        }
+
+        public void AddBrushes(IEnumerable<Brush> bs)
+        {
+            foreach (Brush b in bs)
+            {
+                this.brushes.Add(b);
+            }
+        }
+
+        public override string ToString()
+        {
+            String returnString = "{\n";
+
+            foreach (KeyValuePair<String, String> entry in attributes)
+            {
+                returnString += "\"" + entry.Key + "\" \"" + entry.Value + "\"\n";
+            }
+
+            int i = 0;
+            foreach (Brush b in brushes)
+            {
+                returnString += "// brush " + i + "\n" + b;
+                i++;
+            }
+
+            return returnString + "}\n";
+        }
+    }
+
+    class LightEntity : Entity
+    {
+        public LightEntity(IntVec3 origin, int intensity = 300): base(origin)
+        {
+            attributes.Add("classname", "light");
+            attributes.Add("light", intensity.ToString());
+        }
+    }
+
+    class JAInfoPlayerDeathmatchEntity : Entity
+    {
+        public JAInfoPlayerDeathmatchEntity(IntVec3 origin) : base(origin)
+        {
+            attributes.Add("classname", "info_player_deathmatch");
+        }
+    }
+
 	class Brush {
 		public static Texture defaultTexture = new Texture("gothic_block/blocks18c_3");
 		private IntVec3 spoint;
@@ -66,11 +164,11 @@ namespace ICBINGTKR
 			this.globalTexture = tex;
 		}
 		public override string ToString () {
-			string returnstring = "";
+			string returnstring = "{\n";
 			for (int i=0;i<this.planelist.Count;i++) {
 				returnstring += this.planelist[i]+" "+this.texlist[i]+"\n";
 			}
-			return returnstring;
+			return returnstring + "}\n";
 		}
 	}
 	
@@ -106,50 +204,39 @@ namespace ICBINGTKR
 	}
 	
 	class Map {
-		private int brushnum = 0;
-		private int entitynum = 0;
-		private List<Brush> brushes = new List<Brush>();
-		public readonly string mapname;
-		public Map (string mapname, List<Brush> inbrushes) : this(mapname) {
-			foreach (Brush b in inbrushes) {
-				this.brushes.Add(b);
-			}
+        private List<Entity> entities = new List<Entity>();
+        private String mapName;
+
+        public String MapName
+        {
+            get { return mapName; }
+        }
+
+		public Map (String mapName, WorldspawnEntity ws) : this(mapName)
+        {
+            this.entities.Add(ws);
 		}
-		public Map (string mapname, Brush[] inbrushes) : this(mapname) {
-			foreach (Brush b in inbrushes) {
-				this.brushes.Add(b);
-			}
-		}
-		public Map (string mapname) {
-			this.mapname = mapname;
-		}
-		public Brush NewBrush (IntVec3 veca, IntVec3 vecb) {
-			Brush tbrush = new Brush(veca, vecb);
-			this.brushes.Add(tbrush);
-			return tbrush;
-		}
-		public void AddBrush (Brush b) {
-			this.brushes.Add(b);
-		}
-		public void AddBrush (Brush[] b) {
-			foreach (Brush tb in b) {
-				this.brushes.Add(tb);
-			}
-		}
-		public void AddBrush (IEnumerable<Brush> b) {
-			foreach (Brush tb in b) {
-				this.brushes.Add(tb);
-			}
-		}
-		public override string ToString () {
-			string returnstring = "";
-			returnstring += "// entity "+this.entitynum+" \n{ \n\"classname\" \"worldspawn\" \n";entitynum++;
-			foreach (Brush b in brushes) {
-				returnstring += "// brush "+this.brushnum+"\n";brushnum++;
-				returnstring += "{\n"+b+"}\n";
-			}
-			returnstring += "}\n";
-			return returnstring;
+
+        public Map(String mapName)
+        {
+            this.mapName = mapName;
+        }
+
+        public void AddEntity(Entity e)
+        {
+            this.entities.Add(e);
+        }
+
+		public override string ToString ()
+        {
+            string returnString = "";
+            int i = 0;
+            foreach (Entity e in entities)
+            {
+                returnString += "// entity " + i + "\n" + e;
+                i++;
+            }
+			return returnString;
 		}
 	}
 }

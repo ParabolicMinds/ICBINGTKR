@@ -13,7 +13,7 @@ namespace ICBINGTKR
     {
         protected List<Brush> brushes = new List<Brush>();
 
-        public IEnumerable<Brush> Brushes { get { return this.brushes; } }
+        public List<Brush> Brushes { get { return this.brushes; } }
     }
 
     class HollowBoxGenerator : AssemblyGenerator
