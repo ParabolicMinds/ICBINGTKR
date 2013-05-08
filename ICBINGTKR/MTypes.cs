@@ -18,6 +18,28 @@ namespace ICBINGTKR
 		public Brush (IntVec3 veca, IntVec3 vecb, Texture tex) {
 			this.spoint = veca;
 			this.epoint = vecb;
+
+            // Ensure that the brush coordinates are
+            // turned the right way.
+            if (this.spoint.x > this.epoint.x)
+            {
+                var temp = this.epoint.x;
+                this.epoint.x = this.spoint.x;
+                this.spoint.x = temp;
+            }
+            if (this.spoint.y > this.epoint.y)
+            {
+                var temp = this.epoint.y;
+                this.epoint.y = this.spoint.y;
+                this.spoint.y = temp;
+            }
+            if (this.spoint.z > this.epoint.z)
+            {
+                var temp = this.epoint.z;
+                this.epoint.z = this.spoint.z;
+                this.spoint.z = temp;
+            }
+
 			this.globalTexture = tex;
 			for(int i=0;i<6;i++){
 				this.texlist.Add(this.globalTexture);
@@ -114,7 +136,7 @@ namespace ICBINGTKR
 				this.brushes.Add(tb);
 			}
 		}
-		public void AddBrush (List<Brush> b) {
+		public void AddBrush (IEnumerable<Brush> b) {
 			foreach (Brush tb in b) {
 				this.brushes.Add(tb);
 			}
