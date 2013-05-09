@@ -115,7 +115,7 @@ namespace ICBINGTKR
     {
         public TriSoupGenerator(IntVec3 veca, IntVec3 vecb, Bitmap b)
         {
-            
+
         }
     }
 }

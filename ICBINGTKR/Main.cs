@@ -8,7 +8,11 @@ namespace ICBINGTKR
     {
         public static void Main(string[] args)
         {
-            var g = new HollowBoxGenerator(new IntVec3(0, 0, 0), new IntVec3(1024, 1024, 1024), 4, new Texture("bespin/basic"));
+            var g = new HollowBoxGenerator(
+                new IntVec3(0, 0, 0),
+                new IntVec3(1024, 1024, 1024),
+                4,
+                new Texture("bespin/basic"));
             var b = g.Brushes;
             var worldspawn = new WorldspawnEntity(b);
             worldspawn.AddAttribute("ambient", "300");
