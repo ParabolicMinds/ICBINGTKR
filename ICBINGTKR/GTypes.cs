@@ -6,20 +6,41 @@ using System;
 
 namespace ICBINGTKR
 {
-	class IntVec3 {
-		public int x;
-		public int y;
-		public int z;
-		public IntVec3(int[] arry) : this(arry[0], arry[1], arry[2]) {}
-		public IntVec3(int x, int y, int z){
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-		public override string ToString() {
-			return this.x + " " + this.y + " " + this.z;
-		}
-	}
+    class IntVec3
+    {
+        public int x;
+        public int y;
+        public int z;
+        public IntVec3(int[] arry) : this(arry[0], arry[1], arry[2]) { }
+        public IntVec3(int x, int y, int z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+        public override string ToString()
+        {
+            return this.x + " " + this.y + " " + this.z;
+        }
+    }
+
+    class Q3Color
+    {
+        public float r;
+        public float g;
+        public float b;
+        public Q3Color(int[] arry) : this(arry[0], arry[1], arry[2]) { }
+        public Q3Color(float r, float g, float b)
+        {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+        public override string ToString()
+        {
+            return this.r + " " + this.g + " " + this.b;
+        }
+    }
 	
 	class IntPlane {
 		public IntVec3 VectorA;

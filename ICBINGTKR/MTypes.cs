@@ -90,10 +90,11 @@ namespace ICBINGTKR
 
     class LightEntity : Entity
     {
-        public LightEntity(IntVec3 origin, int intensity = 300): base(origin)
+        public LightEntity(IntVec3 origin, int intensity, Q3Color color): base(origin)
         {
             attributes.Add("classname", "light");
             attributes.Add("light", intensity.ToString());
+            attributes.Add("_color", color.ToString());
         }
     }
 

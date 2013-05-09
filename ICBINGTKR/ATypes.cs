@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+
 
 /// <summary>
 /// This contains multi-Brush "assembly" types that can be used to build a map.
@@ -107,5 +109,13 @@ namespace ICBINGTKR
 
     class RoomGenerator : AssemblyGenerator
     {
+    }
+
+    class TriSoupGenerator : AssemblyGenerator
+    {
+        public TriSoupGenerator(IntVec3 veca, IntVec3 vecb, Bitmap b)
+        {
+            
+        }
     }
 }
