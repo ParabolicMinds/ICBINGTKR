@@ -4,27 +4,32 @@ using System.Diagnostics;
 
 namespace ICBINGTKR
 {
-	class MainClass {
-		public static void Main(string[] args)
+    class MainClass
+    {
+        public static void Main(string[] args)
         {
-            var b = (new HollowBoxGenerator(new IntVec3(0, 0, 0), new IntVec3(1024, 1024, 1024), 4, new Texture("bespin/basic"))).Brushes;
+            var g = new HollowBoxGenerator(new IntVec3(0, 0, 0), new IntVec3(1024, 1024, 1024), 4, new Texture("bespin/basic"));
+            var b = g.Brushes;
             var worldspawn = new WorldspawnEntity(b);
             worldspawn.AddAttribute("ambient", "300");
             worldspawn.AddAttribute("_color", (new Q3Color(0.7f, 0.6f, 0.6f)).ToString());
+
             Map testMap = new Map("generation.map", worldspawn);
+
             testMap.AddEntity(new LightEntity(new IntVec3(200, 0, 0), 2000, new Q3Color(1, 0, 0)));
             testMap.AddEntity(new LightEntity(new IntVec3(-200, 0, 0), 2000, new Q3Color(0, 0, 1)));
             testMap.AddEntity(new JAInfoPlayerDeathmatchEntity(new IntVec3(0, 0, 0)));
-			WriteMap(testMap);
-            CompileMap(testMap);
-		}
 
-		public static void WriteMap(Map theMap)
+            WriteMap(testMap);
+            CompileMap(testMap);
+        }
+
+        public static void WriteMap(Map theMap)
         {
-			StreamWriter mapWriter = new StreamWriter(theMap.MapName);
-			mapWriter.Write(theMap);
-			mapWriter.Close();
-		}
+            StreamWriter mapWriter = new StreamWriter(theMap.MapName);
+            mapWriter.Write(theMap);
+            mapWriter.Close();
+        }
 
         public static void CompileMap(Map theMap)
         {
@@ -52,5 +57,5 @@ namespace ICBINGTKR
                 process.WaitForExit();
             }
         }
-	}
+    }
 }
