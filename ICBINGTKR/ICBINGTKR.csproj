@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ATypes.cs" />
@@ -39,6 +40,22 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="GTypes.cs" />
     <Compile Include="MTypes.cs" />
+    <Compile Include="Properties\q3map2.cs" />
+    <Compile Include="q3map2.cs" />
+    <Compile Include="Properties\q3map2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>q3map2.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\q3map2.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>q3map2.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

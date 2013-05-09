@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+
 
 /// <summary>
 /// This contains multi-Brush "assembly" types that can be used to build a map.
@@ -13,7 +15,7 @@ namespace ICBINGTKR
     {
         protected List<Brush> brushes = new List<Brush>();
 
-        public IEnumerable<Brush> Brushes { get { return this.brushes; } }
+        public List<Brush> Brushes { get { return this.brushes; } }
     }
 
     class HollowBoxGenerator : AssemblyGenerator
@@ -107,5 +109,34 @@ namespace ICBINGTKR
 
     class RoomGenerator : AssemblyGenerator
     {
+    }
+
+    abstract class TriSoupGenerator : AssemblyGenerator
+    {
+        protected int[,] heightmap;
+
+        public void ApplyBoxBlur(int range)
+        {
+            for (int i = 0; i < heightmap.GetLength(0); i++)
+            {
+                for (int j = 0; j < heightmap.GetLength(1); j++)
+                {
+
+                }
+            }
+        }
+    }
+
+    class DiamondSquareTriSoupGenerator : TriSoupGenerator
+    {
+        public DiamondSquareTriSoupGenerator(IntVec3 veca, IntVec3 vecb, int scale, float randomnessFactor)
+        {
+            var xCount = (vecb.x - veca.x) / scale;
+            var yCount = (vecb.y - veca.y) / scale;
+
+        }
+
+
+
     }
 }

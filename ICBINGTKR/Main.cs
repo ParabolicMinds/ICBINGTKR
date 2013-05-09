@@ -1,23 +1,66 @@
 using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace ICBINGTKR
 {
-	class MainClass {
-		public static void Main (string[] args) {
-			Map testmap = new Map("generation.map");
-            //testmap.NewBrush(new IntVec3(64,64,64), new IntVec3(512,512,512)).AddCuttingPlane(new IntVec3(64,64,256), new IntVec3(256,64,64), new IntVec3(64,256,64));
-            //testmap.NewBrush (new IntVec3(512,64,256), new IntVec3(1024,512,512));
-            //testmap.NewBrush(new IntVec3(-8, -8, -8), new IntVec3(8, 8, 8));
-            //testmap.NewBrush(new IntVec3(-64, -64, 68), new IntVec3(64, 64, 64));
-            testmap.AddBrush((new HollowBoxGenerator(new IntVec3(0, 0, 0), new IntVec3(128, 128, 128), 4, new Texture("bespin/basic"))).Brushes);
-			WriteMap(testmap);
-		}
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            var t = new Texture("bespin/basic");
+            var g = new HollowBoxGenerator( new IntVec3(0, 0, 0), new IntVec3(1024, 1024, 1024), 4,  t);
+            var worldspawn = new WorldspawnEntity(g.Brushes);
 
-		public static void WriteMap (Map themap) {
-			StreamWriter mapwriter = new StreamWriter(themap.mapname);
-			mapwriter.Write(themap);
-			mapwriter.Close();
-		}
-	}
+            worldspawn.AddAttribute("ambient", "300");
+            worldspawn.AddAttribute("_color", (new Q3Color(0.7f, 0.6f, 0.6f)).ToString());
+
+            Map testMap = new Map("generation.map", worldspawn);
+
+            // Test backward brush direction.
+            worldspawn.AddBrush(new Brush(new IntVec3(100, 100, 100), new IntVec3(90, 200, 200)));
+
+            testMap.AddEntity(new LightEntity(new IntVec3(200, 0, 0), 2000, new Q3Color(1, 0, 0)));
+            testMap.AddEntity(new LightEntity(new IntVec3(-200, 0, 0), 2000, new Q3Color(0, 0, 1)));
+            testMap.AddEntity(new JAInfoPlayerDeathmatchEntity(new IntVec3(0, 0, 0)));
+
+            WriteMap(testMap);
+            CompileMap(testMap);
+        }
+
+        public static void WriteMap(Map theMap)
+        {
+            StreamWriter mapWriter = new StreamWriter(theMap.MapName);
+            mapWriter.Write(theMap);
+            mapWriter.Close();
+        }
+
+        // Paths stored in q3map2.settings
+        public static void CompileMap(Map theMap)
+        {
+            var appPath = ICBINGTKR.Properties.q3map2.Default.q3map2_path;
+            var basePath = ICBINGTKR.Properties.q3map2.Default.fs_basepath;
+            var commands = ICBINGTKR.Properties.q3map2.Default.bsp_compile_commands;
+
+            foreach (String command in commands)
+            {
+                String comm = command.Replace("\\", "/")
+                    .Replace("<BASE>", "\"" + basePath + "\"")
+                    .Replace("<MAP>", "\"" + basePath + "base/maps/" + theMap.MapName + "\"");
+
+                String args = "/C \"\"" + appPath + "q3map2.exe\" " + comm + "\"";
+
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = args
+                    }
+                };
+                process.Start();
+                process.WaitForExit();
+            }
+        }
+    }
 }
