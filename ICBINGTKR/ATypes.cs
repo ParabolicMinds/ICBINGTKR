@@ -111,11 +111,32 @@ namespace ICBINGTKR
     {
     }
 
-    class TriSoupGenerator : AssemblyGenerator
+    abstract class TriSoupGenerator : AssemblyGenerator
     {
-        public TriSoupGenerator(IntVec3 veca, IntVec3 vecb, Bitmap b)
+        protected int[,] heightmap;
+
+        public void ApplyBoxBlur(int range)
         {
+            for (int i = 0; i < heightmap.GetLength(0); i++)
+            {
+                for (int j = 0; j < heightmap.GetLength(1); j++)
+                {
+
+                }
+            }
+        }
+    }
+
+    class DiamondSquareTriSoupGenerator : TriSoupGenerator
+    {
+        public DiamondSquareTriSoupGenerator(IntVec3 veca, IntVec3 vecb, int scale, float randomnessFactor)
+        {
+            var xCount = (vecb.x - veca.x) / scale;
+            var yCount = (vecb.y - veca.y) / scale;
 
         }
+
+
+
     }
 }

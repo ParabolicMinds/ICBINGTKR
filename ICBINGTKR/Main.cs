@@ -8,17 +8,17 @@ namespace ICBINGTKR
     {
         public static void Main(string[] args)
         {
-            var g = new HollowBoxGenerator(
-                new IntVec3(0, 0, 0),
-                new IntVec3(1024, 1024, 1024),
-                4,
-                new Texture("bespin/basic"));
-            var b = g.Brushes;
-            var worldspawn = new WorldspawnEntity(b);
+            var t = new Texture("bespin/basic");
+            var g = new HollowBoxGenerator( new IntVec3(0, 0, 0), new IntVec3(1024, 1024, 1024), 4,  t);
+            var worldspawn = new WorldspawnEntity(g.Brushes);
+
             worldspawn.AddAttribute("ambient", "300");
             worldspawn.AddAttribute("_color", (new Q3Color(0.7f, 0.6f, 0.6f)).ToString());
 
             Map testMap = new Map("generation.map", worldspawn);
+
+            // Test backward brush direction.
+            worldspawn.AddBrush(new Brush(new IntVec3(100, 100, 100), new IntVec3(90, 200, 200)));
 
             testMap.AddEntity(new LightEntity(new IntVec3(200, 0, 0), 2000, new Q3Color(1, 0, 0)));
             testMap.AddEntity(new LightEntity(new IntVec3(-200, 0, 0), 2000, new Q3Color(0, 0, 1)));
@@ -35,6 +35,7 @@ namespace ICBINGTKR
             mapWriter.Close();
         }
 
+        // Paths stored in q3map2.settings
         public static void CompileMap(Map theMap)
         {
             var appPath = ICBINGTKR.Properties.q3map2.Default.q3map2_path;

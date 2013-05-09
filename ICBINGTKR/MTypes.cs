@@ -122,27 +122,7 @@ namespace ICBINGTKR
         {
             this.spoint = veca;
             this.epoint = vecb;
-
-            // Ensure that the brush coordinates are
-            // turned the right way.
-            if (this.spoint.x > this.epoint.x)
-            {
-                var temp = this.epoint.x;
-                this.epoint.x = this.spoint.x;
-                this.spoint.x = temp;
-            }
-            if (this.spoint.y > this.epoint.y)
-            {
-                var temp = this.epoint.y;
-                this.epoint.y = this.spoint.y;
-                this.spoint.y = temp;
-            }
-            if (this.spoint.z > this.epoint.z)
-            {
-                var temp = this.epoint.z;
-                this.epoint.z = this.spoint.z;
-                this.spoint.z = temp;
-            }
+            Utils.fixDirection(ref this.spoint, ref this.epoint);
 
             this.globalTexture = tex;
             for (int i = 0; i < 6; i++)
