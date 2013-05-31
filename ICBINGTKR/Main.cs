@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace ICBINGTKR
 {
@@ -15,10 +16,25 @@ namespace ICBINGTKR
             worldspawn.AddAttribute("ambient", "300");
             worldspawn.AddAttribute("_color", (new Q3Color(0.7f, 0.6f, 0.6f)).ToString());
 
-            Map testMap = new Map("generation.map", worldspawn);
+            Map testMap = new Map("generation", worldspawn);
 
             // Test backward brush direction.
-            worldspawn.AddBrush(new Brush(new IntVec3(100, 100, 100), new IntVec3(90, 200, 200)));
+            worldspawn.AddBrushes(new RightHexahedralBrushGenerator(new IntVec3(100, 100, 100), new IntVec3(90, 200, 200)).Brushes);
+
+            // Test custom-shaped brushes for trisoup generator.
+            List<Brush> brushes = new List<Brush> {
+                new Brush(new List<BrushFace> {
+                    new BrushFace(new IntVec3(64, 128, -368), new IntVec3(0, 128, -368), new IntVec3(0, 128, -432), new Texture("bespin/control02")),
+                    new BrushFace(new IntVec3(64, 528, -508), new IntVec3(0, 528, -508), new IntVec3(0, -496, -508), new Texture("bespin/control02")),
+                    new BrushFace(new IntVec3(0, -512, -384), new IntVec3(0, 512, -384), new IntVec3(64, 512, -384), new Texture("bespin/control02")),
+                    new BrushFace(new IntVec3(0, 64, -368), new IntVec3(64, 64, -368), new IntVec3(64, 64, -432), new Texture("bespin/control02")),
+                    new BrushFace(new IntVec3(64, -512, -384), new IntVec3(64, 512, -384), new IntVec3(64, 512, -448), new Texture("bespin/control02")),
+                    new BrushFace(new IntVec3(0, 512, -384), new IntVec3(0, -512, -384), new IntVec3(0, 512, -448), new Texture("bespin/control02")),
+                    new BrushFace(new IntVec3(64, 128, -384), new IntVec3(64, 64, -448), new IntVec3(0, 64, -384), new Texture("bespin/control02")),
+                })
+            };
+
+            worldspawn.AddBrushes(brushes);
 
             testMap.AddEntity(new LightEntity(new IntVec3(200, 0, 0), 2000, new Q3Color(1, 0, 0)));
             testMap.AddEntity(new LightEntity(new IntVec3(-200, 0, 0), 2000, new Q3Color(0, 0, 1)));
@@ -30,7 +46,7 @@ namespace ICBINGTKR
 
         public static void WriteMap(Map theMap)
         {
-            StreamWriter mapWriter = new StreamWriter(theMap.MapName);
+            StreamWriter mapWriter = new StreamWriter(theMap.MapName + ".map");
             mapWriter.Write(theMap);
             mapWriter.Close();
         }

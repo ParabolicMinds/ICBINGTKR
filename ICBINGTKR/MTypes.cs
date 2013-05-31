@@ -16,9 +16,7 @@ namespace ICBINGTKR
             get { return attributes; }
         }
 
-        public Entity()
-        {
-        }
+        public Entity() { }
 
         public Entity(IntVec3 origin)
         {
@@ -41,20 +39,9 @@ namespace ICBINGTKR
         }
     }
 
-    class WorldspawnEntity : Entity
+    class BrushEntity : Entity
     {
-        private List<Brush> brushes = new List<Brush>();
-
-        public WorldspawnEntity()
-        {
-            attributes.Add("classname", "worldspawn");
-        }
-
-        public WorldspawnEntity(List<Brush> bs)
-            : this()
-        {
-            brushes = bs;
-        }
+        protected List<Brush> brushes = new List<Brush>();
 
         public void AddBrush(Brush b)
         {
@@ -89,6 +76,20 @@ namespace ICBINGTKR
         }
     }
 
+    class WorldspawnEntity : BrushEntity
+    {
+        public WorldspawnEntity()
+        {
+            attributes.Add("classname", "worldspawn");
+        }
+
+        public WorldspawnEntity(List<Brush> bs)
+            : this()
+        {
+            brushes = bs;
+        }
+    }
+
     class LightEntity : Entity
     {
         public LightEntity(IntVec3 origin, int intensity, Q3Color color)
@@ -109,60 +110,46 @@ namespace ICBINGTKR
         }
     }
 
+    class BrushFace
+    {
+        public static Texture DEFAULT_TEXTURE = new Texture("radiant/notex");
+        private IntPlane plane;
+        private Texture texture;
+
+        public BrushFace(IntVec3 a, IntVec3 b, IntVec3 c, Texture texture) : this(new IntPlane(a, b, c), texture) { }
+        public BrushFace(IntVec3 a, IntVec3 b, IntVec3 c) : this(new IntPlane(a, b, c), BrushFace.DEFAULT_TEXTURE) { }
+        public BrushFace(IntPlane plane) : this(plane, DEFAULT_TEXTURE) { }
+        public BrushFace(IntPlane plane, Texture texture) { this.plane = plane; this.texture = texture; }
+
+        public IntPlane Plane
+        {
+            get { return plane; }
+            set { plane = value; }
+        }
+
+        public Texture Texture
+        {
+            get { return texture; }
+            set { texture = value; }
+        }
+    }
+
     class Brush
     {
-        public static Texture defaultTexture = new Texture("gothic_block/blocks18c_3");
-        private IntVec3 spoint;
-        private IntVec3 epoint;
-        private List<IntPlane> planelist = new List<IntPlane>();
-        private List<Texture> texlist = new List<Texture>();
-        private Texture globalTexture;
-        public Brush(IntVec3 veca, IntVec3 vecb) : this(veca, vecb, defaultTexture) { }
-        public Brush(IntVec3 veca, IntVec3 vecb, Texture tex)
-        {
-            this.spoint = veca;
-            this.epoint = vecb;
-            Utils.fixDirection(ref this.spoint, ref this.epoint);
+        private List<BrushFace> faceList = new List<BrushFace>();
 
-            this.globalTexture = tex;
-            for (int i = 0; i < 6; i++)
-            {
-                this.texlist.Add(this.globalTexture);
-            }
-            this.planelist.Add(new IntPlane(this.spoint.x, 0, 0, this.spoint.x, 1, 0, this.spoint.x, 0, 1));
-            this.planelist.Add(new IntPlane(this.epoint.x, 0, 0, this.epoint.x, 0, 1, this.epoint.x, 1, 0));
-            this.planelist.Add(new IntPlane(0, this.spoint.y, 0, 0, this.spoint.y, 1, 1, this.spoint.y, 0));
-            this.planelist.Add(new IntPlane(0, this.epoint.y, 0, 1, this.epoint.y, 0, 0, this.epoint.y, 1));
-            this.planelist.Add(new IntPlane(0, 0, this.spoint.z, 1, 0, this.spoint.z, 0, 1, this.spoint.z));
-            this.planelist.Add(new IntPlane(0, 0, this.epoint.z, 0, 1, this.epoint.z, 1, 0, this.epoint.z));
-        }
-        public void AddCuttingPlane(IntPlane plane1)
-        {
-            AddCuttingPlane(plane1.VectorA, plane1.VectorB, plane1.VectorC);
-        }
-        public void AddCuttingPlane(IntVec3 vec1, IntVec3 vec2, IntVec3 vec3)
-        {
-            this.planelist.Add(new IntPlane(vec1, vec2, vec3));
-            this.texlist.Add(this.globalTexture);
-        }
-        public void SetTexture(int index, Texture tex)
-        {
-            this.texlist[index] = tex;
-        }
-        public void SetAllTextures(Texture tex)
-        {
-            for (int i = 0; i < this.texlist.Count; i++)
-            {
-                this.texlist[i] = tex;
-            }
-            this.globalTexture = tex;
-        }
+        public Brush() {}
+        public Brush(IEnumerable<BrushFace> faces) { faceList.AddRange(faces); }
+
+        public void AddFace(BrushFace face) { faceList.Add(face); }
+        public void AddFaces(IEnumerable<BrushFace> faces) { faceList.AddRange(faces); }
+
         public override string ToString()
         {
             string returnstring = "{\n";
-            for (int i = 0; i < this.planelist.Count; i++)
+            foreach (BrushFace face in faceList)
             {
-                returnstring += this.planelist[i] + " " + this.texlist[i] + "\n";
+                returnstring += face.Plane + " " + face.Texture + "\n";
             }
             return returnstring + "}\n";
         }
